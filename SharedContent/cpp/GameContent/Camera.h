@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <DirectXMath.h>
+using namespace DirectX;
 // Camera:
 // This class defines the position, orientation and viewing frustum of a camera looking into
 // a 3D world.  It will generate both the View matrix and Projection matrix.  It can also
@@ -25,6 +27,7 @@ internal:
     void SetProjParams(_In_ float fieldOfView, _In_ float aspectRatio, _In_ float nearPlane, _In_ float farPlane);
 
     void LookDirection (_In_ DirectX::XMFLOAT3 lookDirection);
+	void LookAt(XMFLOAT3 lookAt);
     void Eye (_In_ DirectX::XMFLOAT3 position);
 
     DirectX::XMMATRIX View();

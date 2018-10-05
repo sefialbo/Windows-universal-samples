@@ -81,9 +81,10 @@ void Simple3DGame::Initialize(
     // The sphere will be used to handle collisions and constrain the player in the world.
     // It is not rendered so it is not added to the list of render objects.
     // It is added to the object list so it will be included in intersection calculations.
-    m_player = ref new Sphere(XMFLOAT3(0.0f, -1.3f, 4.0f), 0.2f);
+    m_player = ref new Sphere(XMFLOAT3(0.0f, -1.3f, 2.0f), 1.0f);
     m_objects.push_back(m_player);
     m_player->Active(true);
+	m_renderObjects.push_back(m_player);
 
     m_camera = ref new Camera;
     m_camera->SetProjParams(XM_PI / 2, 1.0f, 0.01f, 100.0f);
@@ -254,7 +255,7 @@ void Simple3DGame::Initialize(
 void Simple3DGame::LoadGame()
 {
     m_player->Position(XMFLOAT3 (0.0f, -1.3f, 4.0f));
-
+	
     m_camera->SetViewParams(
         m_player->Position(),            // Eye point in world coordinates.
         XMFLOAT3 (0.0f, 0.7f, 0.0f),     // Look at point in world coordinates.
@@ -333,7 +334,36 @@ void Simple3DGame::ContinueGame()
 }
 
 //----------------------------------------------------------------------
+#include <string>
 
+void LogMessage(XMFLOAT3 vec)
+{
+	OutputDebugString((std::to_wstring(vec.x) + L"," + std::to_wstring(vec.y)
+		+ L"," + std::to_wstring(vec.z) + L"\n").c_str());
+}
+
+using namespace DirectX;
+
+void Simple3DGame::updateThirdPersonCamera() {
+	XMFLOAT3 d(0, 0, -1.0f);
+	XMFLOAT3 finalRes;
+	auto rotation = XMQuaternionRotationRollPitchYaw(
+		m_controller->Pitch(),
+		m_controller->Yaw(),
+		0
+	);
+	auto position = XMLoadFloat3(&m_player->Position());
+	auto res =  XMVector3Rotate(
+		XMVectorSet(0, 0, -3.0f, 0),
+		rotation
+	);
+	auto eye = position + res;
+	XMStoreFloat3(&finalRes, eye);
+	m_camera->Eye(XMFLOAT3(0.0f, 2.0f, 1.0f));
+	//m_camera->Eye(m_player->Position());
+	m_player->Active(true);
+	m_camera->LookDirection(m_controller->LookDirection());
+}
 GameState Simple3DGame::RunGame()
 {
     // This method is called to execute a single time interval for active game play.
@@ -368,13 +398,21 @@ GameState Simple3DGame::RunGame()
     {
         // Time has not expired, so run one frame of game play.
         m_player->Velocity(m_controller->Velocity());
-        m_camera->LookDirection(m_controller->LookDirection());
+
+		m_player->Roll(0.0f);
+		m_player->Yaw(m_controller->Yaw());
+		m_player->Pitch(m_controller->Pitch());
+
+        //m_camera->LookDirection(m_controller->LookDirection());
+
+		LogMessage(m_player->Position());
 
         UpdateDynamics();
-
+		
+		updateThirdPersonCamera();
         // Update the Camera with the player position updates from the dynamics calculations.
-        m_camera->Eye(m_player->Position());
-        m_camera->LookDirection(m_controller->LookDirection());
+        // m_camera->Eye(m_player->Position());
+        // m_camera->LookDirection(m_controller->LookDirection());
 
         if (m_level[m_currentLevel]->Update(m_timer->PlayingTime(), m_timer->DeltaTime(), m_levelTimeRemaining, m_objects))
         {
@@ -457,7 +495,8 @@ void Simple3DGame::UpdateDynamics()
             // Get inverse view matrix.
             XMMATRIX invView;
             XMVECTOR det;
-            invView = XMMatrixInverse(&det, m_camera->View());
+			// Model to word
+			invView = m_player->ModelMatrix(); // XMMatrixInverse(&det, m_player->ModelMatrix());
 
             // Compute initial velocity in world space from camera space.
             XMFLOAT4 initialVelocity(0.0f, 0.0f, 15.0f, 0.0f);

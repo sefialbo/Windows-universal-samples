@@ -45,6 +45,11 @@ void Camera::LookDirection (_In_ XMFLOAT3 lookDirection)
     SetViewParams(m_eye, lookAt, m_up);
 }
 
+void Camera::LookAt(_In_ XMFLOAT3 lookAt)
+{
+	SetViewParams(m_eye, lookAt, m_up);
+}
+
 //--------------------------------------------------------------------------------------
 
 void Camera::Eye(_In_ XMFLOAT3 eye)

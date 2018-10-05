@@ -131,6 +131,9 @@
     <ClCompile Include="..\..\..\SharedContent\cpp\GameContent\WorldMesh.cpp">
       <Filter>Meshes</Filter>
     </ClCompile>
+    <ClCompile Include="ThirdPersonCamera.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -254,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\SharedContent\cpp\GameContent\WorldMesh.h">
       <Filter>Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdPersonCamera.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

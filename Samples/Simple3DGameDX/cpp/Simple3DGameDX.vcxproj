@@ -262,6 +262,7 @@
     <ClInclude Include="GameRenderer.h" />
     <ClInclude Include="GameUIControl.h" />
     <ClInclude Include="Simple3DGame.h" />
+    <ClInclude Include="ThirdPersonCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -304,6 +305,7 @@
     <ClCompile Include="..\..\..\SharedContent\cpp\GameContent\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ThirdPersonCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\seafloor.dds">

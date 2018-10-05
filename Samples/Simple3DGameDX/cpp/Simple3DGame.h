@@ -81,7 +81,8 @@ internal:
     void StartLevel();
     void PauseGame();
     void ContinueGame();
-    GameState RunGame();
+	void updateThirdPersonCamera();
+	GameState RunGame();
     void SetCurrentLevelToSavedState();
 
     void OnSuspending();

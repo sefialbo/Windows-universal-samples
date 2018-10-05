@@ -27,6 +27,9 @@ GameObject::GameObject() :
     m_targetId        = 0;
     m_hit             = false;
     m_ground          = true;
+	m_roll = 0;
+	m_pitch = 0;
+	m_yaw = 0;
 
     m_position        = XMFLOAT3(0.0f, 0.0f, 0.0f);
     m_velocity        = XMFLOAT3(0.0f, 0.0f, 0.0f);

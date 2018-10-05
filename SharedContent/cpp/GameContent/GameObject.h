@@ -86,6 +86,16 @@ internal:
     DirectX::XMVECTOR VectorPosition();
     DirectX::XMVECTOR VectorVelocity();
     DirectX::XMFLOAT3 Velocity();
+	
+	void Pitch(float pitch) { m_pitch = pitch; }
+	float Pitch() { return m_pitch; }
+
+	void Yaw(float yaw) { m_yaw = yaw; }
+	float Yaw() { return m_yaw; }
+
+	void Roll(float roll) { m_roll = roll; }
+	float Roll() { return m_roll; }
+
 
 protected private:
     virtual void UpdatePosition() {};
@@ -108,7 +118,9 @@ protected private:
     DirectX::XMFLOAT3   m_defaultZAxis;
 
     float               m_hitTime;
-
+	float m_roll;
+	float m_pitch;
+	float m_yaw;
     Animate^            m_animatePosition;
     MeshObject^         m_mesh;
 

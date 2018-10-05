@@ -41,6 +41,7 @@ void Sphere::Update()
 {
     XMStoreFloat4x4(
         &m_modelMatrix,
+		XMMatrixRotationRollPitchYaw(m_pitch, m_yaw, m_roll) *
         XMMatrixScaling(m_radius, m_radius, m_radius) *
         XMMatrixTranslation(m_position.x, m_position.y, m_position.z)
         );
